@@ -21,7 +21,7 @@ export type PageProps<
 export interface Feature {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   user: User;
   created_at: Date;
 }
