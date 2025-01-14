@@ -4,19 +4,24 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextAreaInput from '@/Components/TextAreaInput';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Feature } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-export default function Show() {
-  const { data, setData, processing, post, errors } = useForm({
-    name: '',
-    description: '',
+interface Props {
+  feature: Feature;
+}
+
+export default function Edit({ feature }: Props) {
+  const { data, setData, processing, put, errors } = useForm({
+    name: feature.name,
+    description: feature.description,
   });
 
   const createFeature: FormEventHandler = (e) => {
     e.preventDefault();
 
-    post(route('features.store'), {
+    put(route('features.update', { id: feature.id }), {
       preserveScroll: true,
     });
   };
@@ -25,11 +30,11 @@ export default function Show() {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl leading-tight text-gray-800 dark:text-gray-200">
-          Create New feature
+          Edit feature <b>{feature.name}</b>
         </h2>
       }
     >
-      <Head title={`Create New feature`} />
+      <Head title={`Edit Feature ${feature.name}`} />
 
       <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
         <div className="flex gap-8 p-6 text-gray-900 dark:text-gray-100">

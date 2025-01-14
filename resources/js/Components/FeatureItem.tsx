@@ -2,6 +2,7 @@ import { Feature } from '@/types';
 import { Link } from '@inertiajs/react';
 
 import { useState } from 'react';
+import { FeatureActionsDropdown } from './FeatureActionsDropdown';
 
 interface Props {
   feature: Feature;
@@ -74,6 +75,8 @@ export const FeatureItem = ({ feature }: Props) => {
             </button>
           )}
         </div>
+
+        <FeatureActionsDropdown feature={feature} />
       </div>
     </div>
   );

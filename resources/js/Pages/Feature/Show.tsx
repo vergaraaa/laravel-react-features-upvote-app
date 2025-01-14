@@ -1,3 +1,4 @@
+import { FeatureActionsDropdown } from '@/Components/FeatureActionsDropdown';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Feature } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -10,7 +11,7 @@ export default function Show({ feature }: Props) {
   return (
     <AuthenticatedLayout
       header={
-        <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 className="text-xl leading-tight text-gray-800 dark:text-gray-200">
           Feature <b>{feature.name}</b>
         </h2>
       }
@@ -63,6 +64,8 @@ export default function Show({ feature }: Props) {
 
             <p>{feature.description}</p>
           </div>
+
+          <FeatureActionsDropdown feature={feature} />
         </div>
       </div>
     </AuthenticatedLayout>
