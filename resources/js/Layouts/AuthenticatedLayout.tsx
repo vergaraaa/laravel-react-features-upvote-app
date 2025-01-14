@@ -14,8 +14,6 @@ export default function Authenticated({
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
 
-  console.log(user);
-
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -34,6 +32,13 @@ export default function Authenticated({
                   active={route().current('dashboard')}
                 >
                   Dashboard
+                </NavLink>
+
+                <NavLink
+                  href={route('features.index')}
+                  active={route().current('features.index')}
+                >
+                  Features
                 </NavLink>
               </div>
             </div>
@@ -168,7 +173,11 @@ export default function Authenticated({
         </header>
       )}
 
-      <main>{children}</main>
+      <div className="py-12">
+        <div className="mx-auto max-w-7xl space-y-4 sm:px-6 lg:px-8">
+          <main>{children}</main>
+        </div>
+      </div>
     </div>
   );
 }
