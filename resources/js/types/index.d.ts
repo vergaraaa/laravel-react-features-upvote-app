@@ -23,6 +23,9 @@ export interface Feature {
   name: string;
   description?: string;
   user: User;
+  upvote_count: number;
+  user_has_upvoted: boolean;
+  user_has_downvoted: boolean;
   created_at: Date;
 }
 

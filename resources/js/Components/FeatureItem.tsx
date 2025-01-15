@@ -18,7 +18,7 @@ export const FeatureItem = ({ feature }: Props) => {
       <div className="flex gap-8 p-6 text-gray-900 dark:text-gray-100">
         {/* UPVOTE / DOWNVOTE BAR */}
         <div className="flex flex-col items-center">
-          <button>
+          <button className={feature.user_has_upvoted ? 'text-amber-600' : ''}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -35,9 +35,19 @@ export const FeatureItem = ({ feature }: Props) => {
             </svg>
           </button>
 
-          <span className="text-2xl font-semibold">12</span>
+          <span
+            className={`text-2xl font-semibold ${
+              feature.user_has_upvoted || feature.user_has_downvoted
+                ? 'text-amber-600'
+                : ''
+            }`}
+          >
+            {feature.upvote_count}
+          </span>
 
-          <button>
+          <button
+            className={feature.user_has_downvoted ? 'text-amber-600' : ''}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
