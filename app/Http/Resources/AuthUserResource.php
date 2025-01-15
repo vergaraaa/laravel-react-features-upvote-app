@@ -25,6 +25,7 @@ class AuthUserResource extends JsonResource
                 return $permission->name;
             }),
             'roles' => $this->getRoleNames(),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

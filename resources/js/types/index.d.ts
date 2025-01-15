@@ -7,6 +7,7 @@ export interface User {
   email_verified_at?: string;
   permissions: string[];
   roles: string[];
+  created_at: string;
 }
 
 export type PageProps<
@@ -41,3 +42,10 @@ export type PaginatedData<T> = {
   data: T[];
   links: Record<string, string>;
 };
+
+export interface Role {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
