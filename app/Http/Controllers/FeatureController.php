@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
+use App\Models\Upvote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,6 +71,19 @@ class FeatureController extends Controller
      */
     public function show(Feature $feature)
     {
+        $feature->upvote_count = Upvote::where('feature_id', $feature->id)
+            ->sum(DB::raw('CASE WHEN upvote = 1 THEN 1 ELSE -1 END'));
+
+        $feature->user_has_upvoted = Upvote::where('feature_id', $feature->id)
+            ->where('user_id', Auth::id())
+            ->where('upvote', 1)
+            ->exists();
+
+        $feature->user_has_downvoted = Upvote::where('feature_id', $feature->id)
+            ->where('user_id', Auth::id())
+            ->where('upvote', 0)
+            ->exists();
+
         return Inertia::render('Feature/Show', [
             'feature' => new FeatureResource($feature)
         ]);
