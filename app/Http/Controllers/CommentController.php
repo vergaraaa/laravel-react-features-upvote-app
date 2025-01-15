@@ -25,6 +25,10 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
+        if ($comment->user_id !== Auth::id()) {
+            abort(403, 'This action is unauthorized.');
+        }
+
         $featureId = $comment->feature_id;
 
         $comment->delete();

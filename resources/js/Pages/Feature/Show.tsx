@@ -2,15 +2,18 @@ import { CommentForm } from '@/Components/CommentForm';
 import { CommentItem } from '@/Components/CommentItem';
 import { FeatureActionsDropdown } from '@/Components/FeatureActionsDropdown';
 import { FeatureUpvoteDownvote } from '@/Components/FeatureUpvoteDownvote';
+import { can } from '@/helpers';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Feature } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 interface Props {
   feature: Feature;
 }
 
 export default function Show({ feature }: Props) {
+  const user = usePage().props.auth.user;
+
   return (
     <AuthenticatedLayout
       header={
@@ -26,20 +29,30 @@ export default function Show({ feature }: Props) {
           {/* UPVOTE / DOWNVOTE BAR */}
           <FeatureUpvoteDownvote feature={feature} />
 
-          <div className="flex-1">
+          <div className="flex-1 space-y-4">
             <h2 className="mb-2 text-2xl font-bold">{feature.name}</h2>
 
             <p>{feature.description}</p>
 
             {/* COMMENT FORM */}
-            <CommentForm feature={feature} />
+            {can(user, 'manage_comment') ? (
+              <CommentForm feature={feature} />
+            ) : (
+              <div className="text-center text-gray-600">
+                You don't have permission to leave comments
+              </div>
+            )}
 
-            {feature.comments.map((comment) => (
-              <CommentItem key={comment.id} comment={comment} />
-            ))}
+            <div>
+              {feature.comments.map((comment) => (
+                <CommentItem key={comment.id} comment={comment} />
+              ))}
+            </div>
           </div>
 
-          <FeatureActionsDropdown feature={feature} />
+          {can(user, 'manage_features') && (
+            <FeatureActionsDropdown feature={feature} />
+          )}
         </div>
       </div>
     </AuthenticatedLayout>

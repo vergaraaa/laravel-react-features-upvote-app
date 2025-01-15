@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\PermissionsEnum;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
@@ -22,7 +23,16 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
 
-        Route::resource('/features', FeatureController::class);
+        Route::resource('/features', FeatureController::class)
+            ->except(['index', 'show'])
+            ->middleware('can:' . PermissionsEnum::ManageFeatures->value);
+
+        Route::get('/features', [FeatureController::class, 'index'])
+            ->name('features.index');
+
+        Route::get('/features/{feature}', [FeatureController::class, 'show'])
+            ->name('features.show');
+
 
         Route::post('/feature/{feature}/upvote', [UpvoteController::class, 'store'])
             ->name('upvote.store');
@@ -32,9 +42,11 @@ Route::middleware('auth')->group(function () {
 
 
         Route::post('/feature/{feature}/comments', [CommentController::class, 'store'])
+            ->middleware('can:' . PermissionsEnum::ManageComments->value)
             ->name('comment.store');
 
         Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])
+            ->middleware('can:' . PermissionsEnum::ManageComments->value)
             ->name('comment.destroy');
     });
 });
