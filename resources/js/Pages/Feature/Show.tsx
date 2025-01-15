@@ -1,3 +1,5 @@
+import { CommentForm } from '@/Components/CommentForm';
+import { CommentItem } from '@/Components/CommentItem';
 import { FeatureActionsDropdown } from '@/Components/FeatureActionsDropdown';
 import { FeatureUpvoteDownvote } from '@/Components/FeatureUpvoteDownvote';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -28,6 +30,13 @@ export default function Show({ feature }: Props) {
             <h2 className="mb-2 text-2xl font-bold">{feature.name}</h2>
 
             <p>{feature.description}</p>
+
+            {/* COMMENT FORM */}
+            <CommentForm feature={feature} />
+
+            {feature.comments.map((comment) => (
+              <CommentItem key={comment.id} comment={comment} />
+            ))}
           </div>
 
           <FeatureActionsDropdown feature={feature} />

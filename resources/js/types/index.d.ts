@@ -18,6 +18,13 @@ export type PageProps<
   ziggy: Config & { location: string };
 };
 
+export type Comment = {
+  id: number;
+  comment: string;
+  user: User;
+  created_at: string;
+};
+
 export interface Feature {
   id: number;
   name: string;
@@ -26,6 +33,7 @@ export interface Feature {
   upvote_count: number;
   user_has_upvoted: boolean;
   user_has_downvoted: boolean;
+  comments: Comment[];
   created_at: Date;
 }
 
